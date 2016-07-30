@@ -286,3 +286,57 @@ FROM brands AS b
 LEFT JOIN models AS m
 ON b.name = m.brand_name
 WHERE m.name IS NULL;
+
+
+==========
+14
+
+-----
+
+Select the name of any brand with more than 5 models in the 
+database using a HAVING clause.
+
+The correct result set is:
+
+ brand_name
+------------
+ Chevrolet
+ Pontiac
+ Ford
+(3 rows)
+
+
+-----
+
+
+SELECT b.name
+	FROM brands AS b JOIN models AS m
+	ON (b.name=m.brand_name)
+GROUP BY b.name
+HAVING COUNT(*) > 5;
+
+
+==========
+15
+
+-----
+
+Using a subquery, select the name and year of any model whose 
+year is the same year that ANY brand was founded.
+
+The result set should be:
+
+   name    | year
+-----------+-------
+ Imperial  |  1926
+ Corvette  |  1954
+ Fleetwood |  1954
+(3 rows)
+
+-----
+
+
+SELECT m.name, m.year
+	FROM models AS m JOIN brands AS b
+	ON (m.brand_name=b.name)
+WHERE m.year IN (SELECT founded FROM brands);
